@@ -1,5 +1,12 @@
 # Agent Instructions — Collaboration Scorecard App
 
+## Agent Autonomy
+
+**Run autonomously without asking for permission to continue.** When given a task:
+- Execute all required steps without pausing for confirmation
+- Only stop to ask questions if genuinely blocked or ambiguous requirements
+- Continue through sprints and tasks sequentially until complete
+
 ## Project Overview
 
 This is a performance-based partnership qualification tool. The purpose is to capture honest signals without coaching and provide clear decision bands for collaboration decisions.

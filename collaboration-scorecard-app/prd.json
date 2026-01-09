@@ -15,7 +15,7 @@
                 "Basic Express server responds on /health endpoint"
             ],
             "priority": 1,
-            "passes": false
+            "passes": true
         },
         {
             "id": "S1-002",
@@ -28,7 +28,7 @@
                 "Basic React app renders with placeholder content"
             ],
             "priority": 1,
-            "passes": false
+            "passes": true
         },
         {
             "id": "S1-003",
@@ -41,7 +41,7 @@
                 "Validation schema defined (Zod or similar)"
             ],
             "priority": 2,
-            "passes": false
+            "passes": true
         },
         {
             "id": "S1-004",
@@ -53,7 +53,7 @@
                 "Type exports are clean and documented"
             ],
             "priority": 2,
-            "passes": false
+            "passes": true
         },
         {
             "id": "S1-005",
@@ -66,7 +66,7 @@
                 "Type exports are clean and documented"
             ],
             "priority": 2,
-            "passes": false
+            "passes": true
         },
         {
             "id": "S1-006",
@@ -78,7 +78,7 @@
                 "Type exports are clean and documented"
             ],
             "priority": 2,
-            "passes": false
+            "passes": true
         },
         {
             "id": "S1-007",
@@ -90,7 +90,7 @@
                 "Type exports are clean and documented"
             ],
             "priority": 2,
-            "passes": false
+            "passes": true
         },
         {
             "id": "S1-008",
@@ -103,7 +103,7 @@
                 "Type exports are clean and documented"
             ],
             "priority": 2,
-            "passes": false
+            "passes": true
         },
         {
             "id": "S1-009",
@@ -118,7 +118,7 @@
                 "npm test passes"
             ],
             "priority": 3,
-            "passes": false
+            "passes": true
         },
         {
             "id": "S1-010",
@@ -134,7 +134,7 @@
                 "npm test passes"
             ],
             "priority": 3,
-            "passes": false
+            "passes": true
         },
         {
             "id": "S1-011",
@@ -148,7 +148,7 @@
                 "npm test passes"
             ],
             "priority": 3,
-            "passes": false
+            "passes": true
         },
         {
             "id": "S1-012",
@@ -163,7 +163,7 @@
                 "Schema matches TypeScript models"
             ],
             "priority": 4,
-            "passes": false
+            "passes": true
         },
         {
             "id": "S1-013",
@@ -178,7 +178,7 @@
                 "Documentation of what seed data represents"
             ],
             "priority": 4,
-            "passes": false
+            "passes": true
         },
         {
             "id": "S1-014",
@@ -194,7 +194,7 @@
                 "npm test passes"
             ],
             "priority": 5,
-            "passes": false
+            "passes": true
         }
     ],
     "notes": [

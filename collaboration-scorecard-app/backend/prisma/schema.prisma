@@ -1,0 +1,161 @@
+// Collaboration Scorecard App - Database Schema
+// https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Assessment status enum
+enum AssessmentStatus {
+  DRAFT
+  IN_PROGRESS
+  SUBMITTED
+  REVIEWED
+  ARCHIVED
+}
+
+// Collaboration type enum
+enum CollaborationType {
+  AFFILIATE
+  REVENUE_SHARE
+  PERFORMANCE_BASED
+  JOINT_VENTURE
+}
+
+// Question type enum
+enum QuestionType {
+  NUMERIC_SCALE
+  CHECKBOX
+  TEXT
+  CONDITIONAL
+}
+
+// Decision enum
+enum Decision {
+  PROCEED
+  PROCEED_WITH_SAFEGUARDS
+  PAUSE
+}
+
+// Assessment - Parent container for a full evaluation
+model Assessment {
+  id                String            @id @default(uuid())
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  status            AssessmentStatus  @default(DRAFT)
+  respondentEmail   String
+  respondentName    String?
+  collaborationType CollaborationType
+  companyName       String?
+  notes             String?
+
+  responses     Response[]
+  scores        Score[]
+  decisionBands DecisionBand[]
+
+  @@index([status])
+  @@index([respondentEmail])
+}
+
+// Section - Groups related questions
+model Section {
+  id          String  @id @default(uuid())
+  title       String
+  description String?
+  order       Int
+  maxScore    Float
+
+  questions Question[]
+
+  @@index([order])
+}
+
+// Question - Individual assessment item
+model Question {
+  id               String       @id @default(uuid())
+  sectionId        String
+  type             QuestionType
+  text             String
+  description      String?
+  weight           Float
+  required         Boolean      @default(false)
+  order            Int
+  minValue         Float?
+  maxValue         Float?
+  showIfQuestionId String?
+  showIfValue      String?
+
+  section   Section    @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  responses Response[]
+
+  @@index([sectionId])
+  @@index([order])
+}
+
+// Response - User answers to questions
+model Response {
+  id           String   @id @default(uuid())
+  questionId   String
+  assessmentId String
+  value        String   // Stored as string, parsed based on question type
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  question   Question   @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  assessment Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
+  @@unique([questionId, assessmentId])
+  @@index([assessmentId])
+}
+
+// Score - Calculated results for an assessment
+model Score {
+  id            String   @id @default(uuid())
+  assessmentId  String
+  totalScore    Float
+  maxScore      Float
+  percentage    Float
+  sectionScores Json     // Array of SectionScore objects
+  calculatedAt  DateTime @default(now())
+
+  assessment    Assessment     @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  decisionBands DecisionBand[]
+
+  @@index([assessmentId])
+}
+
+// DecisionBand - Final recommendation output
+model DecisionBand {
+  id           String   @id @default(uuid())
+  assessmentId String
+  scoreId      String
+  decision     Decision
+  explanation  String
+  riskFlags    Json     // Array of risk flag strings
+  createdAt    DateTime @default(now())
+
+  assessment Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  score      Score      @relation(fields: [scoreId], references: [id], onDelete: Cascade)
+
+  @@index([assessmentId])
+  @@index([decision])
+}
+
+// AdminOverride - Audit log for admin score overrides
+model AdminOverride {
+  id             String   @id @default(uuid())
+  assessmentId   String
+  adminEmail     String
+  previousScore  Float
+  newScore       Float
+  reason         String
+  createdAt      DateTime @default(now())
+
+  @@index([assessmentId])
+  @@index([adminEmail])
+}
