@@ -1,0 +1,207 @@
+{
+    "title": "Collaboration Scorecard App - Sprint 1: Data Model & Scoring Logic",
+    "description": "Implement the foundational data model, database schema, and scoring calculation logic for the collaboration qualification system.",
+    "branchName": "sprint-1-data-model",
+    "userStories": [
+        {
+            "id": "S1-001",
+            "title": "Set up backend TypeScript project structure",
+            "description": "Initialize backend with TypeScript, Express, and necessary dependencies",
+            "acceptanceCriteria": [
+                "package.json created with TypeScript, Express, ts-node, nodemon",
+                "tsconfig.json configured for Node.js/Express",
+                "npm run dev starts development server",
+                "npm run typecheck runs successfully",
+                "Basic Express server responds on /health endpoint"
+            ],
+            "priority": 1,
+            "passes": false
+        },
+        {
+            "id": "S1-002",
+            "title": "Set up frontend React TypeScript project structure",
+            "description": "Initialize frontend with Vite, React, and TypeScript",
+            "acceptanceCriteria": [
+                "Vite project created with React + TypeScript template",
+                "npm run dev starts development server",
+                "npm run typecheck runs successfully",
+                "Basic React app renders with placeholder content"
+            ],
+            "priority": 1,
+            "passes": false
+        },
+        {
+            "id": "S1-003",
+            "title": "Define Assessment TypeScript model",
+            "description": "Create TypeScript interface/class for Assessment entity with validation",
+            "acceptanceCriteria": [
+                "Assessment.ts interface includes: id, createdAt, updatedAt, status",
+                "Include metadata fields: respondentEmail, collaborationType",
+                "Type exports are clean and documented",
+                "Validation schema defined (Zod or similar)"
+            ],
+            "priority": 2,
+            "passes": false
+        },
+        {
+            "id": "S1-004",
+            "title": "Define Section TypeScript model",
+            "description": "Create TypeScript interface for Section entity",
+            "acceptanceCriteria": [
+                "Section.ts interface includes: id, assessmentId, title, order, maxScore",
+                "Foreign key relationship to Assessment defined",
+                "Type exports are clean and documented"
+            ],
+            "priority": 2,
+            "passes": false
+        },
+        {
+            "id": "S1-005",
+            "title": "Define Question TypeScript model",
+            "description": "Create TypeScript interface for Question entity with support for multiple question types",
+            "acceptanceCriteria": [
+                "Question.ts interface includes: id, sectionId, type, text, weight, required",
+                "Question types enum: NUMERIC_SCALE, CHECKBOX, TEXT, CONDITIONAL",
+                "Support conditional logic fields (showIfQuestionId, showIfValue)",
+                "Type exports are clean and documented"
+            ],
+            "priority": 2,
+            "passes": false
+        },
+        {
+            "id": "S1-006",
+            "title": "Define Response TypeScript model",
+            "description": "Create TypeScript interface for Response entity",
+            "acceptanceCriteria": [
+                "Response.ts interface includes: id, questionId, assessmentId, value, createdAt",
+                "Support multiple value types (number, boolean, string)",
+                "Type exports are clean and documented"
+            ],
+            "priority": 2,
+            "passes": false
+        },
+        {
+            "id": "S1-007",
+            "title": "Define Score TypeScript model",
+            "description": "Create TypeScript interface for Score entity",
+            "acceptanceCriteria": [
+                "Score.ts interface includes: id, assessmentId, totalScore, maxScore, calculatedAt",
+                "Include section breakdown (sectionScores array)",
+                "Type exports are clean and documented"
+            ],
+            "priority": 2,
+            "passes": false
+        },
+        {
+            "id": "S1-008",
+            "title": "Define DecisionBand TypeScript model",
+            "description": "Create TypeScript interface and enum for DecisionBand entity",
+            "acceptanceCriteria": [
+                "DecisionBand.ts includes enum: PROCEED, PROCEED_WITH_SAFEGUARDS, PAUSE",
+                "Interface includes: id, assessmentId, scoreId, decision, explanation, riskFlags",
+                "Decision thresholds constants defined (55-70, 45-54, <45)",
+                "Type exports are clean and documented"
+            ],
+            "priority": 2,
+            "passes": false
+        },
+        {
+            "id": "S1-009",
+            "title": "Implement core score calculation function",
+            "description": "Build calculateScore.ts with logic to compute total score from responses",
+            "acceptanceCriteria": [
+                "Function accepts Assessment + Responses as input",
+                "Returns total score out of 70 points",
+                "Correctly weights questions by their weight values",
+                "Handles missing/incomplete responses gracefully",
+                "Unit tests cover basic calculation scenarios",
+                "npm test passes"
+            ],
+            "priority": 3,
+            "passes": false
+        },
+        {
+            "id": "S1-010",
+            "title": "Implement decision band determination logic",
+            "description": "Build determineDecisionBand.ts to assign band based on score",
+            "acceptanceCriteria": [
+                "Function accepts Score as input",
+                "Returns correct DecisionBand enum for thresholds",
+                "55-70 → PROCEED",
+                "45-54 → PROCEED_WITH_SAFEGUARDS",
+                "<45 → PAUSE",
+                "Unit tests cover all three bands",
+                "npm test passes"
+            ],
+            "priority": 3,
+            "passes": false
+        },
+        {
+            "id": "S1-011",
+            "title": "Implement risk flag detection",
+            "description": "Build detectRiskFlags.ts to identify non-negotiable violations",
+            "acceptanceCriteria": [
+                "Function accepts Responses as input",
+                "Returns array of risk flag strings",
+                "Detects non-negotiables (e.g., lack of compliance agreement)",
+                "Unit tests cover risk scenarios",
+                "npm test passes"
+            ],
+            "priority": 3,
+            "passes": false
+        },
+        {
+            "id": "S1-012",
+            "title": "Set up PostgreSQL database schema migrations",
+            "description": "Create initial migration files for all entities using a migration tool (Prisma, Drizzle, or raw SQL)",
+            "acceptanceCriteria": [
+                "Migration tool configured (Prisma recommended)",
+                "Tables created: assessments, sections, questions, responses, scores, decision_bands",
+                "Foreign key constraints defined correctly",
+                "Indexes added for performance (assessmentId, sectionId, etc.)",
+                "Migration runs successfully against local Postgres",
+                "Schema matches TypeScript models"
+            ],
+            "priority": 4,
+            "passes": false
+        },
+        {
+            "id": "S1-013",
+            "title": "Create database seed data for testing",
+            "description": "Build seed script with sample questions and test scenarios",
+            "acceptanceCriteria": [
+                "Seed script creates 3-5 sections",
+                "Each section has 3-5 questions (mix of NUMERIC_SCALE, CHECKBOX)",
+                "At least one conditional compliance question",
+                "Total possible score = 70 points",
+                "Seed data can be run idempotently",
+                "Documentation of what seed data represents"
+            ],
+            "priority": 4,
+            "passes": false
+        },
+        {
+            "id": "S1-014",
+            "title": "Test full scoring pipeline end-to-end",
+            "description": "Create integration test that validates entire scoring flow",
+            "acceptanceCriteria": [
+                "Test creates sample Assessment + Responses",
+                "Runs calculateScore() → determineDecisionBand() → detectRiskFlags()",
+                "Validates correct score calculation",
+                "Validates correct decision band assignment",
+                "Validates risk flags detected correctly",
+                "Test covers all three decision bands (PROCEED, SAFEGUARDS, PAUSE)",
+                "npm test passes"
+            ],
+            "priority": 5,
+            "passes": false
+        }
+    ],
+    "notes": [
+        "Sprint 1 focuses on backend data model foundation",
+        "Frontend UI will be Sprint 2",
+        "Use Prisma for database management (recommended)",
+        "All code must pass typecheck before commit",
+        "Each story should include relevant unit tests"
+    ]
+}
