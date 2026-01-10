@@ -1,6 +1,9 @@
-FROM node:22-alpine
+FROM node:22-slim
 
 WORKDIR /app
+
+# Install OpenSSL for Prisma (required on Debian-based images)
+RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
 # Copy package files
 COPY frontend/package*.json ./frontend/
