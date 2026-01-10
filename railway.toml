@@ -2,6 +2,8 @@
 builder = "nixpacks"
 buildCommand = "cd frontend && npm install && npm run build && cp -r dist ../backend/frontend-dist && cd ../backend && npm install && npm run build"
 watchPatterns = ["backend/**", "frontend/**"]
+nixpacksVersion = "1.38.0"
+dockerfilePath = ""
 
 [deploy]
 startCommand = "cd backend && npm run start"
