@@ -9,6 +9,7 @@ build/
 *.js
 *.d.ts
 !*.config.js
+!backend/frontend-dist/**
 
 # Environment
 .env
