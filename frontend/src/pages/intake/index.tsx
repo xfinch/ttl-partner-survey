@@ -48,6 +48,54 @@ const MOCK_SECTIONS: Section[] = [
         weight: 5,
         required: false,
         order: 3
+      },
+      {
+        id: 'q3a',
+        sectionId: 'section-1',
+        type: QuestionType.TEXT,
+        text: 'Reference Contact Name',
+        description: 'Full name of your reference contact',
+        weight: 0,
+        required: false,
+        order: 4,
+        showIfQuestionId: 'q3',
+        showIfValue: 'true'
+      },
+      {
+        id: 'q3b',
+        sectionId: 'section-1',
+        type: QuestionType.TEXT,
+        text: 'Reference Email Address',
+        description: 'Email address for your reference',
+        weight: 0,
+        required: false,
+        order: 5,
+        showIfQuestionId: 'q3',
+        showIfValue: 'true'
+      },
+      {
+        id: 'q3c',
+        sectionId: 'section-1',
+        type: QuestionType.TEXT,
+        text: 'Reference Website',
+        description: 'Company or personal website URL',
+        weight: 0,
+        required: false,
+        order: 6,
+        showIfQuestionId: 'q3',
+        showIfValue: 'true'
+      },
+      {
+        id: 'q3d',
+        sectionId: 'section-1',
+        type: QuestionType.TEXT,
+        text: 'Reference Social Media Handles',
+        description: 'LinkedIn, Facebook, Instagram, X (Twitter) - include all that apply',
+        weight: 0,
+        required: false,
+        order: 7,
+        showIfQuestionId: 'q3',
+        showIfValue: 'true'
       }
     ]
   },
@@ -90,6 +138,18 @@ const MOCK_SECTIONS: Section[] = [
         weight: 5,
         required: false,
         order: 3
+      },
+      {
+        id: 'q6a',
+        sectionId: 'section-2',
+        type: QuestionType.TEXT,
+        text: 'What resources are you prepared to invest?',
+        description: 'e.g., small budget, contact list, barter with limited amounts',
+        weight: 0,
+        required: false,
+        order: 4,
+        showIfQuestionId: 'q6',
+        showIfValue: 'true'
       }
     ]
   },
@@ -162,6 +222,66 @@ const MOCK_SECTIONS: Section[] = [
         weight: 5,
         required: false,
         order: 2
+      },
+      {
+        id: 'q11a',
+        sectionId: 'section-4',
+        type: QuestionType.CHECKBOX,
+        text: 'Team Members',
+        description: 'Will you have team members dedicated to this collaboration?',
+        weight: 0,
+        required: false,
+        order: 3,
+        showIfQuestionId: 'q11',
+        showIfValue: 'true'
+      },
+      {
+        id: 'q11a1',
+        sectionId: 'section-4',
+        type: QuestionType.TEXT,
+        text: 'Number of team members',
+        description: 'How many team members will be dedicated?',
+        weight: 0,
+        required: false,
+        order: 4,
+        showIfQuestionId: 'q11a',
+        showIfValue: 'true'
+      },
+      {
+        id: 'q11a2',
+        sectionId: 'section-4',
+        type: QuestionType.TEXT,
+        text: 'Hours per week',
+        description: 'How many hours per week can they dedicate?',
+        weight: 0,
+        required: false,
+        order: 5,
+        showIfQuestionId: 'q11a',
+        showIfValue: 'true'
+      },
+      {
+        id: 'q11b',
+        sectionId: 'section-4',
+        type: QuestionType.CHECKBOX,
+        text: 'Other Resources',
+        description: 'Do you have other resources to dedicate?',
+        weight: 0,
+        required: false,
+        order: 6,
+        showIfQuestionId: 'q11',
+        showIfValue: 'true'
+      },
+      {
+        id: 'q11b1',
+        sectionId: 'section-4',
+        type: QuestionType.TEXT,
+        text: 'Please describe your other resources',
+        description: 'What other resources can you dedicate to this collaboration?',
+        weight: 0,
+        required: false,
+        order: 7,
+        showIfQuestionId: 'q11b',
+        showIfValue: 'true'
       }
     ]
   },

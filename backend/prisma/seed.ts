@@ -67,6 +67,65 @@ async function main() {
     }
   });
 
+  // Add conditional reference detail questions
+  const referencesQuestion = await prisma.question.findFirst({
+    where: {
+      sectionId: section1.id,
+      text: { contains: 'verifiable references' }
+    }
+  });
+
+  if (referencesQuestion) {
+    await prisma.question.createMany({
+      data: [
+        {
+          sectionId: section1.id,
+          type: 'TEXT',
+          text: 'Reference Contact Name',
+          description: 'Full name of your reference contact',
+          weight: 0,
+          required: false,
+          order: 4,
+          showIfQuestionId: referencesQuestion.id,
+          showIfValue: 'true'
+        },
+        {
+          sectionId: section1.id,
+          type: 'TEXT',
+          text: 'Reference Email Address',
+          description: 'Email address for your reference',
+          weight: 0,
+          required: false,
+          order: 5,
+          showIfQuestionId: referencesQuestion.id,
+          showIfValue: 'true'
+        },
+        {
+          sectionId: section1.id,
+          type: 'TEXT',
+          text: 'Reference Website',
+          description: 'Company or personal website URL',
+          weight: 0,
+          required: false,
+          order: 6,
+          showIfQuestionId: referencesQuestion.id,
+          showIfValue: 'true'
+        },
+        {
+          sectionId: section1.id,
+          type: 'TEXT',
+          text: 'Reference Social Media Handles',
+          description: 'LinkedIn, Facebook, Instagram, X (Twitter) - include all that apply',
+          weight: 0,
+          required: false,
+          order: 7,
+          showIfQuestionId: referencesQuestion.id,
+          showIfValue: 'true'
+        }
+      ]
+    });
+  }
+
   // Section 2: Financial Readiness (20 points)
   const section2 = await prisma.section.create({
     data: {
@@ -107,6 +166,30 @@ async function main() {
       }
     }
   });
+
+  // Add conditional question for resources investment
+  const investResourcesQuestion = await prisma.question.findFirst({
+    where: {
+      sectionId: section2.id,
+      text: { contains: 'prepared to invest resources' }
+    }
+  });
+
+  if (investResourcesQuestion) {
+    await prisma.question.create({
+      data: {
+        sectionId: section2.id,
+        type: 'TEXT',
+        text: 'What resources are you prepared to invest?',
+        description: 'e.g., small budget, contact list, barter with limited amounts',
+        weight: 0,
+        required: false,
+        order: 4,
+        showIfQuestionId: investResourcesQuestion.id,
+        showIfValue: 'true'
+      }
+    });
+  }
 
   // Section 3: Alignment & Values (15 points)
   const section3 = await prisma.section.create({
@@ -179,6 +262,104 @@ async function main() {
       }
     }
   });
+
+  // Add conditional questions for dedicated resources
+  const dedicatedResourcesQuestion = await prisma.question.findFirst({
+    where: {
+      sectionId: section4.id,
+      text: { contains: 'dedicated resources' }
+    }
+  });
+
+  if (dedicatedResourcesQuestion) {
+    await prisma.question.createMany({
+      data: [
+        {
+          sectionId: section4.id,
+          type: 'CHECKBOX',
+          text: 'Team Members',
+          description: 'Will you have team members dedicated to this collaboration?',
+          weight: 0,
+          required: false,
+          order: 3,
+          showIfQuestionId: dedicatedResourcesQuestion.id,
+          showIfValue: 'true'
+        },
+        {
+          sectionId: section4.id,
+          type: 'CHECKBOX',
+          text: 'Other Resources',
+          description: 'Do you have other resources to dedicate?',
+          weight: 0,
+          required: false,
+          order: 6,
+          showIfQuestionId: dedicatedResourcesQuestion.id,
+          showIfValue: 'true'
+        }
+      ]
+    });
+
+    // Get the Team Members checkbox to add sub-questions
+    const teamMembersQuestion = await prisma.question.findFirst({
+      where: {
+        sectionId: section4.id,
+        text: 'Team Members'
+      }
+    });
+
+    if (teamMembersQuestion) {
+      await prisma.question.createMany({
+        data: [
+          {
+            sectionId: section4.id,
+            type: 'TEXT',
+            text: 'Number of team members',
+            description: 'How many team members will be dedicated?',
+            weight: 0,
+            required: false,
+            order: 4,
+            showIfQuestionId: teamMembersQuestion.id,
+            showIfValue: 'true'
+          },
+          {
+            sectionId: section4.id,
+            type: 'TEXT',
+            text: 'Hours per week',
+            description: 'How many hours per week can they dedicate?',
+            weight: 0,
+            required: false,
+            order: 5,
+            showIfQuestionId: teamMembersQuestion.id,
+            showIfValue: 'true'
+          }
+        ]
+      });
+    }
+
+    // Get the Other Resources checkbox to add sub-question
+    const otherResourcesQuestion = await prisma.question.findFirst({
+      where: {
+        sectionId: section4.id,
+        text: 'Other Resources'
+      }
+    });
+
+    if (otherResourcesQuestion) {
+      await prisma.question.create({
+        data: {
+          sectionId: section4.id,
+          type: 'TEXT',
+          text: 'Please describe your other resources',
+          description: 'What other resources can you dedicate to this collaboration?',
+          weight: 0,
+          required: false,
+          order: 7,
+          showIfQuestionId: otherResourcesQuestion.id,
+          showIfValue: 'true'
+        }
+      });
+    }
+  }
 
   // Section 5: Compliance & Legal (10 points) - includes conditional compliance question
   const section5 = await prisma.section.create({
