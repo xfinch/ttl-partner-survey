@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
-    "build": "prisma generate && tsc",
+    "build": "cd ../frontend && npm install && npm run build && mkdir -p ../backend/frontend-dist && cp -r dist/* ../backend/frontend-dist/ && cd ../backend && prisma generate && tsc",
     "start": "prisma db push && prisma db seed && node dist/index.js",
     "start:prod": "node dist/index.js",
     "typecheck": "tsc --noEmit",
