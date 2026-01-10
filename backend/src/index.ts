@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
 import dotenv from 'dotenv';
 import apiRoutes from './api/routes';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
@@ -39,8 +40,21 @@ app.get('/health', (req, res) => {
 // API routes
 app.use('/api', apiRoutes);
 
-// Error handling
-app.use(notFoundHandler);
+// Serve frontend static files in production
+const frontendPath = path.join(__dirname, '../../frontend-dist');
+app.use(express.static(frontendPath));
+
+// SPA fallback - serve index.html for non-API routes
+app.get('*', (req, res, next) => {
+  // Skip API routes and health check
+  if (req.path.startsWith('/api') || req.path === '/health') {
+    return next();
+  }
+  res.sendFile(path.join(frontendPath, 'index.html'));
+});
+
+// Error handling (for API routes)
+app.use('/api', notFoundHandler);
 app.use(errorHandler);
 
 // Graceful shutdown
