@@ -51,7 +51,14 @@ app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api') || req.path === '/health') {
     return next();
   }
-  res.sendFile(path.join(frontendPath, 'index.html'));
+  const indexPath = path.join(frontendPath, 'index.html');
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error('Error serving index.html:', err);
+      console.error('Attempted path:', indexPath);
+      res.status(404).json({ error: 'Frontend not found', path: indexPath });
+    }
+  });
 });
 
 // Error handling (for API routes)
