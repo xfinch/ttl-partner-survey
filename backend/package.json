@@ -1,6 +1,7 @@
 {
   "name": "collaboration-scorecard-backend",
-  "version": "1.0.1",
+  "version": "1.0.2",
+  "buildTimestamp": "20260110-cache-bust",
   "description": "Backend for Collaboration Scorecard App",
   "main": "dist/index.js",
   "scripts": {
